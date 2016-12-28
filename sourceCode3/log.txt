@@ -1,0 +1,64 @@
+出入人数,办理的业务编号:正在放入第1个
+出入人数,办理的业务编号:第1个成功
+正在唤醒窗口
+窗口唤醒成功
+正在放入第2个
+now in operator
+Window 2 now is execute ... 5
+第Window 2 now is execute ... 42个成功
+
+正在唤醒窗口
+窗口唤醒成功
+正在放入第3个
+now in operator
+Window 4 now is execute ... 5
+Window 2 now is execute ... 3
+Window 4 now is execute ... 4
+第3个成功
+正在唤醒窗口
+窗口唤醒成功
+正在放入第4个
+Window 2 now is execute ... 2
+Window 4 now is execute ... 3
+第4个成功
+正在唤醒窗口
+窗口唤醒成功
+正在放入第5个
+Window 2 now is execute ... 1
+Window 4 now is execute ... 2
+第5个成功
+正在唤醒窗口
+窗口唤醒成功
+正在放入第6个
+Window 2 now is execute ... 0
+Window 4 now is execute ... 1
+第6个成功
+正在唤醒窗口
+窗口唤醒成功
+正在放入第7个
+Window 4 now is execute ... 0
+办理成功:2
+第7个成功
+正在唤醒窗口
+now in operator
+Window 窗口唤醒成功
+正在放入第8个
+2 now is execute ... 5
+办理成功:4
+Window 2 now is execute ... 4
+第8个成功
+正在唤醒窗口
+窗口唤醒成功
+now in operator
+Window 4 now is execute ... 5
+Window 2 now is execute ... 3
+Window 4 now is execute ... 4
+Window 2 now is execute ... 2
+Window 4 now is execute ... 3
+Window 2 now is execute ... 1
+Window 4 now is execute ... 2
+Window 2 now is execute ... 0
+Window 4 now is execute ... 1
+办理成功:2
+Window 4 now is execute ... 0
+办理成功:4
