@@ -76,4 +76,6 @@ void Bank::run(){
     w3Thread.join();
     w4Thread.join();
     recThread.join();
+    cout << "可以"<< endl;
+
 }

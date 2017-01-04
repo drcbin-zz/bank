@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>791</width>
+    <height>484</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QPushButton" name="addPersonButton">
+    <property name="geometry">
+     <rect>
+      <x>648</x>
+      <y>290</y>
+      <width>111</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>添加</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="createPersonButton">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>360</y>
+      <width>161</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>随机产生10个人</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="personNumLabel">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>323</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>人数:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="businessIdLabel">
+    <property name="geometry">
+     <rect>
+      <x>536</x>
+      <y>293</y>
+      <width>59</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>业务编号:</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="businessIdBox">
+    <property name="geometry">
+     <rect>
+      <x>596</x>
+      <y>290</y>
+      <width>47</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="personNumBox">
+    <property name="geometry">
+     <rect>
+      <x>596</x>
+      <y>320</y>
+      <width>47</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>260</y>
+      <width>641</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="businessIdBoxWaringLabel">
+    <property name="geometry">
+     <rect>
+      <x>547</x>
+      <y>270</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>业务编号范围:1-8</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="w2">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>60</y>
+      <width>161</width>
+      <height>181</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>196</x>
+      <y>60</y>
+      <width>20</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_3">
+    <property name="geometry">
+     <rect>
+      <x>578</x>
+      <y>60</y>
+      <width>20</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_4">
+    <property name="geometry">
+     <rect>
+      <x>387</x>
+      <y>60</y>
+      <width>20</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="w4">
+    <property name="geometry">
+     <rect>
+      <x>604</x>
+      <y>60</y>
+      <width>161</width>
+      <height>181</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="w1">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>60</y>
+      <width>161</width>
+      <height>181</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="w3">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>60</y>
+      <width>161</width>
+      <height>181</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="windowOneName">
+    <property name="geometry">
+     <rect>
+      <x>39</x>
+      <y>24</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 14pt &quot;Sans Serif&quot;;</string>
+    </property>
+    <property name="text">
+     <string>窗口一:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="windowFourName">
+    <property name="geometry">
+     <rect>
+      <x>614</x>
+      <y>24</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 14pt &quot;Sans Serif&quot;;</string>
+    </property>
+    <property name="text">
+     <string>窗口四:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="windowThreeName">
+    <property name="geometry">
+     <rect>
+      <x>419</x>
+      <y>25</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 14pt &quot;Sans Serif&quot;;</string>
+    </property>
+    <property name="text">
+     <string>窗口三:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="windowTwoName">
+    <property name="geometry">
+     <rect>
+      <x>226</x>
+      <y>25</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 14pt &quot;Sans Serif&quot;;</string>
+    </property>
+    <property name="text">
+     <string>窗口二:</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="runingText">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>280</y>
+      <width>451</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="windowStatus_1">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>18</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;Sans Serif&quot;;</string>
+    </property>
+    <property name="text">
+     <string>忙碌</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="windowStatus_2">
+    <property name="geometry">
+     <rect>
+      <x>296</x>
+      <y>20</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;Sans Serif&quot;;</string>
+    </property>
+    <property name="text">
+     <string>忙碌</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="windowStatus_3">
+    <property name="geometry">
+     <rect>
+      <x>489</x>
+      <y>20</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;Sans Serif&quot;;</string>
+    </property>
+    <property name="text">
+     <string>忙碌</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="windowStatus_4">
+    <property name="geometry">
+     <rect>
+      <x>685</x>
+      <y>18</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;Sans Serif&quot;;</string>
+    </property>
+    <property name="text">
+     <string>忙碌</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>791</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuChoose">
+    <property name="title">
+     <string>choose</string>
+    </property>
+    <addaction name="actionStart_2"/>
+    <addaction name="actionStop_2"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuChoose"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionStart">
+   <property name="text">
+    <string>start</string>
+   </property>
+  </action>
+  <action name="actionStop">
+   <property name="text">
+    <string>stop</string>
+   </property>
+  </action>
+  <action name="actionStart_2">
+   <property name="text">
+    <string>start</string>
+   </property>
+  </action>
+  <action name="actionStop_2">
+   <property name="text">
+    <string>stop</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>about</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

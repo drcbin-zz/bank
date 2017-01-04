@@ -126,5 +126,6 @@ int main()
 
     Bank b;
     b.run();
+    cout << "可以" << endl;
     return 0;
 }
