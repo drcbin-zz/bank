@@ -13,7 +13,6 @@ void MyLabel::acceptChangeTextSignal(const QString &text){
 }
 
 
-
 // for ProcessWindow
 ProcessWindow::ProcessWindow(QWidget* parent):QTextBrowser(parent)
 {
@@ -57,7 +56,7 @@ MyWindow::MyWindow(QWidget* parent,
 
 
     //初始化成员变量
-    this->m_status = "free";
+    this->m_status = FREE;
     this->timeOut = 3;
     this->m_customer = NULL;
 
@@ -80,14 +79,15 @@ void MyWindow::execute(ProcessWindow*& processWind){
     while(true){
         s = "正在呼叫......";
         this->Append(s);
-        m_status = "wait" ;
+        m_status = WAIT ;
         this_thread::sleep_for(std::chrono::seconds(1));
 //        m_statusWindow->setText(m_status);
         locker.lock();
         if(m_customerQueue->isEmpty()){
 
              s =  "没有顾客,等待中......";
-                        this->Append(s);
+             this->Append(s);
+             this->m_status = FREE;
             m_workCond->wait(locker);
         }
         m_customer = m_customerQueue->pop();
@@ -104,7 +104,7 @@ void MyWindow::execute(ProcessWindow*& processWind){
                 // break;
             // }
         m_busnessId = m_customer->ticket()->businessId();
-        this->m_status = "free";
+        this->m_status = "BUSY";
         switch (m_busnessId) {
             case 0:
                 sec = 3;
@@ -174,4 +174,18 @@ void MyWindow::execute(ProcessWindow*& processWind){
 // }
 
 void MyWindow::result(){
+}
+
+
+void MyWindow::changeStatus(int status){
+    QString s;
+    if(status== FREE){
+        s = "空闲";
+    }
+    if(status== BUSY){
+        s = "忙碌";
+    }
+    if(status== WAIT){
+        s = "等待";
+    }
 }

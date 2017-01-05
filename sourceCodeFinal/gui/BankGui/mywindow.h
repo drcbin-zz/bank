@@ -10,6 +10,10 @@
 #include "../../Queue.cpp"
 using namespace std;
 
+#define BUSY 0
+#define FREE 1
+#define WAIT 2
+
 class MyLabel:public QLabel{
     Q_OBJECT
 signals:
@@ -57,7 +61,7 @@ public:
        int m_busnessId;
 
        //当前窗口的状态
-       QString m_status;
+       int m_status;
 
         QLabel* m_statusWindow;
 
@@ -105,6 +109,10 @@ public:
 
        // show sigain
        void Append(const QString&);
+
+
+
+       void changeStatus(int);
 
 
 };
