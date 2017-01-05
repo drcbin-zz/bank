@@ -261,6 +261,7 @@ public:
         QPalette businessIdWaringBoxPa;
         businessIdWaringBoxPa.setColor(QPalette::WindowText, Qt::red);
         businessIdWaringBox->setPalette(businessIdWaringBoxPa);
+        businessIdWaringBox->setVisible(false);
         businessIdWaringBox->setObjectName(QStringLiteral("businessIdWaringBox"));
         businessIdWaringBox->setGeometry(QRect(690, 288, 101, 20));
         businessIdWaringBox->setStyleSheet(QStringLiteral("font: 9pt \"Sans Serif\";"));
