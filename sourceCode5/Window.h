@@ -1,10 +1,10 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <QTextBrowser>
 #include <thread>
 #include <iostream>
 #include <condition_variable>
-#include <QtWidgets/QTextBrowser>
 #include "Customer.h"
 #include "Ticket.h"
 #include "Queue.cpp"
@@ -21,7 +21,8 @@ using namespace std;
 
 class Window:public QTextBrowser
 {
-public:
+    Q_OBJECT
+private:
 
     // 窗口的id
     int m_id;
@@ -49,8 +50,8 @@ public:
 public:
 
     //初始化函数
-    Window(QWidget*,int, Queue<Customer*>* customerQueue, Queue<Ticket*>* lodTicQueue, condition_variable* workCond, condition_variable* recCond, mutex *customerQueueMutex, mutex* oldTicQueueMutex);
-
+    explicit Window(int, Queue<Customer*>* customerQueue, Queue<Ticket*>* lodTicQueue, condition_variable* workCond, condition_variable* recCond, mutex *customerQueueMutex, mutex* oldTicQueueMutex);
+    ~Window();
     //呼叫客户方法
     Customer *callFrom(Queue<Customer*>*);
 

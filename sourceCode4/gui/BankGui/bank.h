@@ -4,24 +4,24 @@
 #include <QMainWindow>
 
 namespace Ui {
-class Bank;
+class GuiBank;
 }
 
-class Bank : public QMainWindow
+class GuiBank : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit Bank(QWidget *parent = 0);
-    ~Bank();
+    explicit GuiBank(QWidget *parent = 0);
+    ~GuiBank();
+
 
 private slots:
-
-
-    void on_pushButton_clicked();
+//    void on_randCreatePersonButton_clicked();
+//    void on_addPersonButton_clicked();
 
 private:
-    Ui::Bank *ui;
+    Ui::GuiBank *ui;
 };
 
 #endif // BANK_H

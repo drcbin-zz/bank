@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = BankGui1.0.0
-DISTDIR = /home/chenbin/work/CourseDesign/sourceCode4/gui/build-BankGui-Desktop_Qt_5_7_1_GCC_64bit-Debug/.tmp/BankGui1.0.0
+DISTDIR = /home/chenbin/work/CourseDesign/sourceCode5/gui/build-BankGui-Desktop_Qt_5_7_1_GCC_64bit-Debug/.tmp/BankGui1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/lib
 LIBS          = $(SUBLIBS) -L/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/lib -lQt5Widgets -L/usr/lib64 -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -49,42 +49,21 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../BankGui/main.cpp \
-		../BankGui/bank.cpp \
+		../BankGui/bankgui.cpp \
+		../BankGui/mywindow.cpp \
 		../../Customer.cpp \
 		../../Ticket.cpp \
-		../../TicMachine.cpp \
-		../BankGui/mywindow.cpp \
-		moc_mywindow.cpp \
-		moc_bank.cpp moc_bank.cpp \
+		../../TicMachine.cpp moc_bankgui.cpp \
 		moc_mywindow.cpp
 OBJECTS       = main.o \
-		bank.o \
+		bankgui.o \
+		mywindow.o \
 		Customer.o \
 		Ticket.o \
 		TicMachine.o \
-		mywindow.o \
-		moc_mywindow.o \
-		moc_bank.o \
-		moc_bank.o \
+		moc_bankgui.o \
 		moc_mywindow.o
-DIST          = ../../Bank.o \
-		../../Customer.o \
-		../../Queue.o \
-		../../test.o \
-		../../Ticket.o \
-		../../TicMachine.o \
-		../../Window.o \
-		../../main \
-		../../log.txt \
-		../../Bank.d \
-		../../Customer.d \
-		../../Queue.d \
-		../../test.d \
-		../../Ticket.d \
-		../../TicMachine.d \
-		../../Window.d \
-		../../Makefile \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/features/spec_pre.prf \
+DIST          = /home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/common/unix.conf \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/common/linux.conf \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/common/sanitize.conf \
@@ -234,19 +213,17 @@ DIST          = ../../Bank.o \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/features/exceptions.prf \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/features/yacc.prf \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/features/lex.prf \
-		../BankGui/BankGui.pro ../BankGui/bank.h \
+		../BankGui/BankGui.pro ../BankGui/bankgui.h \
+		../BankGui/mywindow.h \
+		ui_bankgui.h \
 		../../Customer.h \
 		../../Ticket.h \
-		../../TicMachine.h \
-		ui_bank.h \
-		../BankGui/mywindow.h ../BankGui/main.cpp \
-		../BankGui/bank.cpp \
+		../../TicMachine.h ../BankGui/main.cpp \
+		../BankGui/bankgui.cpp \
+		../BankGui/mywindow.cpp \
 		../../Customer.cpp \
 		../../Ticket.cpp \
-		../../TicMachine.cpp \
-		../BankGui/mywindow.cpp \
-		moc_mywindow.cpp \
-		moc_bank.cpp
+		../../TicMachine.cpp
 QMAKE_TARGET  = BankGui
 DESTDIR       = 
 TARGET        = BankGui
@@ -255,7 +232,7 @@ TARGET        = BankGui
 first: all
 ####### Build rules
 
-$(TARGET): ui_bank.h $(OBJECTS)  
+$(TARGET): ui_bankgui.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../BankGui/BankGui.pro /home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/linux-g++/qmake.conf /home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/features/spec_pre.prf \
@@ -581,9 +558,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../BankGui/bank.h ../../Customer.h ../../Ticket.h ../../TicMachine.h ui_bank.h ../BankGui/mywindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../BankGui/main.cpp ../BankGui/bank.cpp ../../Customer.cpp ../../Ticket.cpp ../../TicMachine.cpp ../BankGui/mywindow.cpp moc_mywindow.cpp moc_bank.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../BankGui/bank.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../BankGui/bankgui.h ../BankGui/mywindow.h ui_bankgui.h ../../Customer.h ../../Ticket.h ../../TicMachine.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../BankGui/main.cpp ../BankGui/bankgui.cpp ../BankGui/mywindow.cpp ../../Customer.cpp ../../Ticket.cpp ../../TicMachine.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../BankGui/bankgui.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -609,10 +586,10 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_bank.cpp moc_mywindow.cpp
+compiler_moc_header_make_all: moc_bankgui.cpp moc_mywindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_bank.cpp moc_mywindow.cpp
-moc_bank.cpp: /home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QMainWindow \
+	-$(DEL_FILE) moc_bankgui.cpp moc_mywindow.cpp
+moc_bankgui.cpp: /home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QMainWindow \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qwidget.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs.h \
@@ -712,9 +689,9 @@ moc_bank.cpp: /home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QMainW
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qicon.h \
-		../BankGui/bank.h \
+		../BankGui/bankgui.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/bin/moc
-	/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/bin/moc $(DEFINES) -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/linux-g++ -I/home/chenbin/work/CourseDesign/sourceCode4/gui/BankGui -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore -I. -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../BankGui/bank.h -o moc_bank.cpp
+	/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/bin/moc $(DEFINES) -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/linux-g++ -I/home/chenbin/work/CourseDesign/sourceCode5/gui/BankGui -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore -I. -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../BankGui/bankgui.h -o moc_bankgui.cpp
 
 moc_mywindow.cpp: /home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QTextBrowser \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtextbrowser.h \
@@ -822,23 +799,21 @@ moc_mywindow.cpp: /home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QT
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextcursor.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextformat.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpen.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QLabel \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qlabel.h \
 		../../Customer.h \
 		../../Ticket.h \
 		../../Queue.cpp \
 		../BankGui/mywindow.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/bin/moc
-	/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/bin/moc $(DEFINES) -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/linux-g++ -I/home/chenbin/work/CourseDesign/sourceCode4/gui/BankGui -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore -I. -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../BankGui/mywindow.h -o moc_mywindow.cpp
+	/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/bin/moc $(DEFINES) -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/mkspecs/linux-g++ -I/home/chenbin/work/CourseDesign/sourceCode5/gui/BankGui -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui -I/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore -I. -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../BankGui/mywindow.h -o moc_mywindow.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_bank.h
+compiler_uic_make_all: ui_bankgui.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_bank.h
-ui_bank.h: ../BankGui/bank.ui \
+	-$(DEL_FILE) ui_bankgui.h
+ui_bankgui.h: ../BankGui/bankgui.ui \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/bin/uic
-	/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/bin/uic ../BankGui/bank.ui -o ui_bank.h
+	/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/bin/uic ../BankGui/bankgui.ui -o ui_bankgui.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -850,7 +825,7 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: ../BankGui/main.cpp ../BankGui/bank.h \
+main.o: ../BankGui/main.cpp ../BankGui/bankgui.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QMainWindow \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qwidget.h \
@@ -960,7 +935,7 @@ main.o: ../BankGui/main.cpp ../BankGui/bank.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../BankGui/main.cpp
 
-bank.o: ../BankGui/bank.cpp ../BankGui/bank.h \
+bankgui.o: ../BankGui/bankgui.cpp ../BankGui/bankgui.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QMainWindow \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qwidget.h \
@@ -1061,7 +1036,7 @@ bank.o: ../BankGui/bank.cpp ../BankGui/bank.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qicon.h \
-		ui_bank.h \
+		ui_bankgui.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/QVariant \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QAction \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qaction.h \
@@ -1075,12 +1050,11 @@ bank.o: ../BankGui/bank.cpp ../BankGui/bank.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qinputmethod.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QButtonGroup \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QFrame \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qframe.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QHeaderView \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qheaderview.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qabstractitemview.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qframe.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qabstractitemmodel.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qitemselectionmodel.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
@@ -1093,17 +1067,12 @@ bank.o: ../BankGui/bank.cpp ../BankGui/bank.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qstyle.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtabbar.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qrubberband.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QLabel \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qlabel.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QMenu \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qmenu.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QMenuBar \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qmenubar.h \
+		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qmenu.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QPushButton \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QSpinBox \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qspinbox.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QStatusBar \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qstatusbar.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QTextBrowser \
@@ -1114,142 +1083,14 @@ bank.o: ../BankGui/bank.cpp ../BankGui/bank.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextcursor.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextformat.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpen.h \
+		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QToolBar \
+		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtoolbar.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QWidget \
-		../../TicMachine.h \
-		../../Queue.cpp \
-		../../Ticket.h \
 		../BankGui/mywindow.h \
-		../../Customer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bank.o ../BankGui/bank.cpp
-
-Customer.o: ../../Customer.cpp ../../Customer.h \
-		../../Ticket.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Customer.o ../../Customer.cpp
-
-Ticket.o: ../../Ticket.cpp ../../Ticket.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Ticket.o ../../Ticket.cpp
-
-TicMachine.o: ../../TicMachine.cpp ../../TicMachine.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QApplication \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qapplication.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qglobal.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qconfig.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfeatures.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsystemdetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qprocessordetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtypeinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtypetraits.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qisenum.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsysinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlogging.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qflags.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbasicatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qgenericatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qglobalstatic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmutex.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qnumeric.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qversiontagging.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstring.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qchar.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbytearray.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qrefcount.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qnamespace.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qarraydata.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobject.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qalgorithms.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qiterator.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qhashfunctions.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qpair.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringlist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qregexp.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcoreevent.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmetatype.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobject_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qeventloop.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qpoint.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsize.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qcursor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qwidget.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmargins.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qrect.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpalette.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qcolor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qrgb.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qrgba64.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qbrush.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvector.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qmatrix.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpolygon.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qregion.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qdatastream.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qiodevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qline.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtransform.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpainterpath.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qimage.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpixelformat.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpixmap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qshareddata.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qhash.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfont.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfontinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qkeysequence.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qevent.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvariant.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qdebug.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtextstream.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlocale.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qset.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qurl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qurlquery.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfile.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfiledevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qvector2d.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtouchdevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qguiapplication.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qinputmethod.h \
-		../../Queue.cpp \
+		../../Customer.h \
 		../../Ticket.h \
-		../BankGui/mywindow.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QTextBrowser \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtextbrowser.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtextedit.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qframe.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextdocument.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextoption.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextcursor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextformat.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpen.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QLabel \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qlabel.h \
-		../../Customer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TicMachine.o ../../TicMachine.cpp
+		../../Queue.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bankgui.o ../BankGui/bankgui.cpp
 
 mywindow.o: ../BankGui/mywindow.cpp ../BankGui/mywindow.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QTextBrowser \
@@ -1358,445 +1199,27 @@ mywindow.o: ../BankGui/mywindow.cpp ../BankGui/mywindow.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextcursor.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextformat.h \
 		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpen.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QLabel \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qlabel.h \
 		../../Customer.h \
 		../../Ticket.h \
 		../../Queue.cpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mywindow.o ../BankGui/mywindow.cpp
 
-moc_mywindow.o: moc_mywindow.cpp ../BankGui/mywindow.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QTextBrowser \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtextbrowser.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtextedit.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qframe.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qwidget.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qglobal.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qconfig.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfeatures.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsystemdetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qprocessordetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtypeinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtypetraits.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qisenum.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsysinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlogging.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qflags.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbasicatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qgenericatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qglobalstatic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmutex.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qnumeric.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qversiontagging.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qnamespace.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobject.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstring.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qchar.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbytearray.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qrefcount.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qarraydata.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qalgorithms.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qiterator.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qhashfunctions.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qpair.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringlist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qregexp.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcoreevent.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmetatype.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobject_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmargins.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qrect.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsize.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qpoint.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpalette.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qcolor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qrgb.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qrgba64.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qbrush.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvector.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qmatrix.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpolygon.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qregion.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qdatastream.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qiodevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qline.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtransform.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpainterpath.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qimage.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpixelformat.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpixmap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qshareddata.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qhash.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfont.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfontinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qcursor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qkeysequence.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qevent.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvariant.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qdebug.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtextstream.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlocale.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qset.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qurl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qurlquery.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfile.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfiledevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qvector2d.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtouchdevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextdocument.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextoption.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextcursor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextformat.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpen.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QLabel \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qlabel.h \
-		../../Customer.h \
-		../../Ticket.h \
-		../../Queue.cpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mywindow.o moc_mywindow.cpp
+Customer.o: ../../Customer.cpp ../../Customer.h \
+		../../Ticket.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Customer.o ../../Customer.cpp
 
-moc_bank.o: moc_bank.cpp ../BankGui/bank.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QMainWindow \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qmainwindow.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qwidget.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qglobal.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qconfig.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfeatures.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsystemdetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qprocessordetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtypeinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtypetraits.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qisenum.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsysinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlogging.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qflags.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbasicatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qgenericatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qglobalstatic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmutex.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qnumeric.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qversiontagging.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qnamespace.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobject.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstring.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qchar.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbytearray.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qrefcount.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qarraydata.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qalgorithms.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qiterator.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qhashfunctions.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qpair.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringlist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qregexp.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcoreevent.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmetatype.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobject_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmargins.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qrect.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsize.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qpoint.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpalette.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qcolor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qrgb.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qrgba64.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qbrush.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvector.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qmatrix.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpolygon.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qregion.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qdatastream.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qiodevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qline.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtransform.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpainterpath.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qimage.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpixelformat.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpixmap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qshareddata.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qhash.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfont.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfontinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qcursor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qkeysequence.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qevent.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvariant.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qdebug.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtextstream.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlocale.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qset.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qurl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qurlquery.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfile.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfiledevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qvector2d.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtouchdevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qicon.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_bank.o moc_bank.cpp
+Ticket.o: ../../Ticket.cpp ../../Ticket.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Ticket.o ../../Ticket.cpp
 
-moc_bank.o: moc_bank.cpp ../BankGui/bank.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QMainWindow \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qmainwindow.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qwidget.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qglobal.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qconfig.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfeatures.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsystemdetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qprocessordetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtypeinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtypetraits.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qisenum.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsysinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlogging.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qflags.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbasicatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qgenericatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qglobalstatic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmutex.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qnumeric.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qversiontagging.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qnamespace.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobject.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstring.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qchar.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbytearray.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qrefcount.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qarraydata.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qalgorithms.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qiterator.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qhashfunctions.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qpair.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringlist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qregexp.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcoreevent.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmetatype.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobject_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmargins.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qrect.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsize.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qpoint.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpalette.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qcolor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qrgb.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qrgba64.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qbrush.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvector.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qmatrix.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpolygon.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qregion.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qdatastream.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qiodevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qline.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtransform.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpainterpath.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qimage.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpixelformat.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpixmap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qshareddata.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qhash.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfont.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfontinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qcursor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qkeysequence.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qevent.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvariant.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qdebug.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtextstream.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlocale.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qset.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qurl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qurlquery.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfile.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfiledevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qvector2d.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtouchdevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qicon.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_bank.o moc_bank.cpp
+TicMachine.o: ../../TicMachine.cpp ../../TicMachine.h \
+		../../Queue.cpp \
+		../../Ticket.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TicMachine.o ../../TicMachine.cpp
 
-moc_mywindow.o: moc_mywindow.cpp ../BankGui/mywindow.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QTextBrowser \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtextbrowser.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qtextedit.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qframe.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qwidget.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qglobal.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qconfig.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfeatures.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsystemdetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qprocessordetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtypeinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtypetraits.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qisenum.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsysinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlogging.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qflags.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbasicatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qgenericatomic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qglobalstatic.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmutex.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qnumeric.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qversiontagging.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qnamespace.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobject.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstring.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qchar.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbytearray.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qrefcount.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qarraydata.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qalgorithms.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qiterator.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qhashfunctions.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qpair.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringlist.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qregexp.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcoreevent.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmetatype.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qobject_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmargins.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qrect.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsize.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qpoint.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpalette.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qcolor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qrgb.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qrgba64.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qbrush.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvector.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qmatrix.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpolygon.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qregion.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qdatastream.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qiodevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qline.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtransform.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpainterpath.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qimage.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpixelformat.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpixmap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qshareddata.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qhash.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfont.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qfontinfo.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qcursor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qkeysequence.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qevent.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qvariant.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qmap.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qdebug.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qtextstream.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qlocale.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qset.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qurl.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qurlquery.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfile.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtCore/qfiledevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qvector2d.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtouchdevice.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextdocument.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextoption.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextcursor.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qtextformat.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtGui/qpen.h \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/QLabel \
-		/home/chenbin/Software/Qt5.7.1/5.7/gcc_64/include/QtWidgets/qlabel.h \
-		../../Customer.h \
-		../../Ticket.h \
-		../../Queue.cpp
+moc_bankgui.o: moc_bankgui.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_bankgui.o moc_bankgui.cpp
+
+moc_mywindow.o: moc_mywindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mywindow.o moc_mywindow.cpp
 
 ####### Install

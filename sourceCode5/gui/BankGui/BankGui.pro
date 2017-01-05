@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-01-04T16:49:04
+# Project created by QtCreator 2017-01-05T16:08:41
 #
 #-------------------------------------------------
 
@@ -24,37 +24,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        bank.cpp \
+        bankgui.cpp \
+    mywindow.cpp \
     ../../Customer.cpp \
     ../../Queue.cpp \
     ../../Ticket.cpp \
-    ../../TicMachine.cpp \
-    mywindow.cpp
+    ../../TicMachine.cpp
 
-HEADERS  += bank.h \
+HEADERS  += bankgui.h \
+    mywindow.h \
+    ../build-BankGui-Desktop_Qt_5_7_1_GCC_64bit-Debug/ui_bankgui.h \
     ../../Customer.h \
     ../../Ticket.h \
-    ../../TicMachine.h \
-    ../build-BankGui-Desktop_Qt_5_7_1_GCC_64bit-Debug/ui_bank.h \
-    mywindow.h
+    ../../TicMachine.h
 
-FORMS    +=
-
-DISTFILES += \
-    ../../Bank.o \
-    ../../Customer.o \
-    ../../Queue.o \
-    ../../test.o \
-    ../../Ticket.o \
-    ../../TicMachine.o \
-    ../../Window.o \
-    ../../main \
-    ../../log.txt \
-    ../../Bank.d \
-    ../../Customer.d \
-    ../../Queue.d \
-    ../../test.d \
-    ../../Ticket.d \
-    ../../TicMachine.d \
-    ../../Window.d \
-    ../../Makefile
+FORMS    += bankgui.ui

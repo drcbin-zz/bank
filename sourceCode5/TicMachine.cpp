@@ -67,22 +67,19 @@ bool TicMachine::isStillWork(){
 
 
 //回收小票
-void TicMachine::recover(ProcessWindow*& processWindow){
-    string s;
+void TicMachine::recover(){
     while(true){
+        cout << "回收()ing" << endl;
         //加锁修改数据操作
         unique_lock<mutex> locker(m_countLock);
         m_recCond->wait(locker);
+        cout << "回收被唤醒..." << endl;
         if(!m_oldTicQueue->isEmpty()){
             Ticket* oldTic = m_oldTicQueue->pop();
-            s = "正在回收号小票.";
-//            fun(s);
-            processWindow->processWindowAppend(s);
             this->m_waitNum--;
             this->m_eachWaitNum[oldTic->businessId()]--;
-            s = "回收完成,已将小票信息保存到文件.";
-            processWindow->processWindowAppend(s);
         }
         locker.unlock();
+        cout << "回收()end" << endl;
     }
 }

@@ -4,10 +4,8 @@
 #include <mutex>
 #include <string>
 #include <iostream>
-#include <QtWidgets/QApplication>
 #include "Queue.cpp"
 #include "Ticket.h"
-#include "mywindow.h"
 using namespace std;
 class TicMachine
 {
@@ -36,7 +34,7 @@ public:
     /* 判断是否是营业时间 */
 
 
-    void recover(ProcessWindow*& processWindow);
+    void recover();
     /*回收办理完成的票
      * oldTicQueue: Queue<>* 类型, 存放废旧小票的队列
      * recCond:condition_variable 类型, 线程唤醒的条件变量

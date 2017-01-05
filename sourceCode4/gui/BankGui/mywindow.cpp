@@ -1,14 +1,34 @@
+#include "mywindow.h"
 
-#include "Window.h"
-Window::Window(QWidget *qwidget,
-               int id,
-               Queue<Customer*>* customerQueue,
-               Queue<Ticket*>* oldTicQueue,
-               condition_variable* workCond,
-               condition_variable* recCond,
-               mutex* customerQueueMutex,
-               mutex* oldTicQueueMutex):QTextBrowser(qwidget){
+ProcessWindow::ProcessWindow(QWidget* parent):QTextBrowser(parent)
+{
+    connect(this,SIGNAL(processWindowAppendSignal(QString)),this,SLOT(acceptProcessWindowAppendSignal(QString)));
+}
+ProcessWindow::~ProcessWindow(){};
+void ProcessWindow::acceptProcessWindowAppendSignal(const QString &text){
+    this->append(text);
+}
+void ProcessWindow::processWindowAppend(const QString &text){
+    emit processWindowAppendSignal(text);
+}
+void ProcessWindow::processWindowAppend(const string &text){
+    QString qText = QString::fromStdString(text);
+    emit processWindowAppendSignal(qText);
+}
+
+
+MyWindow::MyWindow(QWidget* parent,
+                   QLabel* statusWindow,
+                   int id,
+                   Queue<Customer*>* customerQueue,
+                   Queue<Ticket*>* oldTicQueue,
+                   condition_variable* workCond,
+                   condition_variable* recCond,
+                   mutex *customerQueueMutex,
+                   mutex* oldTicQueueMutex):QTextBrowser(parent){
+    connect(this,SIGNAL(Sin(QString)),this,SLOT(Slot(QString)));
     //初始化信息
+    m_statusWindow = statusWindow;
     this->m_workCond = workCond;
     this->m_customerQueue = customerQueue;
     this->m_oldTicQueue = oldTicQueue;
@@ -19,21 +39,37 @@ Window::Window(QWidget *qwidget,
 
 
     //初始化成员变量
-    this->isBusy = false;
+    this->m_status = "free";
     this->timeOut = 3;
     this->m_customer = NULL;
-    cout << "成功构建窗口:" << m_id << endl;
+
+};
+MyWindow::~MyWindow(){};
+void MyWindow::Slot(const QString& text){
+//    cout << "Hello, qt!" << endl;
+    this->append(text);
+};
+void MyWindow::Append(const QString& text){
+    emit Sin(text);
 }
 
-void Window::execute(){
+
+void MyWindow::execute(ProcessWindow*& processWind){
     // unique_lock<mutex> L(lock);
+    QString s;
     int sec=5;
     unique_lock<mutex> locker(*m_customerQueueMutex, defer_lock);
     while(true){
-        cout << "wait" << endl;
+        s = "正在呼叫......";
+        this->Append(s);
+        m_status = "wait" ;
+        this_thread::sleep_for(std::chrono::seconds(1));
+//        m_statusWindow->setText(m_status);
         locker.lock();
         if(m_customerQueue->isEmpty()){
-            cout << "Window " << m_id << " sleeping .." << endl;
+
+             s =  "没有顾客,等待中......";
+                        this->Append(s);
             m_workCond->wait(locker);
         }
         m_customer = m_customerQueue->pop();
@@ -49,8 +85,9 @@ void Window::execute(){
                 // locker.unlock();
                 // break;
             // }
-        this->isBusy = true;
-        switch (m_customer->ticket()->businessId()) {
+        m_busnessId = m_customer->ticket()->businessId();
+        this->m_status = "free";
+        switch (m_busnessId) {
             case 0:
                 sec = 3;
                 break;
@@ -78,8 +115,11 @@ void Window::execute(){
         }
         //可以加个繁忙剩余时间,并输出
         // this_thread::sleep_for(std::chrono::seconds(sec));
+        s = QString::number(m_id) + "号窗口正在办理业务.";
+        processWind->processWindowAppend(s);
         for(int i = sec; i >=0; i--){
-            cout << "Window " << m_id << " now is execute ... " << i << endl;
+            s ="正在办理" + QString::number(m_busnessId) + "号业务:" + QString::number(i);
+            this->Append(s);
             this_thread::sleep_for(chrono::seconds(1));
         }
 
@@ -91,18 +131,17 @@ void Window::execute(){
 
         //将小票放入废旧小票队列(m_oldTicQueue)
         m_oldTicQueue->push(m_customer->ticket());
-
+        s = QString::number(m_id) + "号窗口办理完成.";
+        processWind->processWindowAppend(s);
         //执行完毕后唤醒小票处理线程来做收尾工作
         m_recCond->notify_one();
-
         //办理完成后直接释放顾客对象
         delete m_customer;
         this->m_customer = NULL;
 
 
         //更改空闲状态
-        this->isBusy = false;
-        cout << "办理成功:" << m_id << endl;
+        this->m_status = "free";
     }
     // }
 }
@@ -116,7 +155,5 @@ void Window::execute(){
     // }
 // }
 
-void Window::result(){
-    this->append("call result");
+void MyWindow::result(){
 }
-

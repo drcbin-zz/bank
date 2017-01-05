@@ -24,20 +24,25 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QWidget>
+//#include <QtWidgets/QObject>
 #include <thread>
 #include "../../TicMachine.h"
-#include "../../Window.h"
 #include "../../Customer.h"
 #include "../../Queue.cpp"
+#include "mywindow.h"
 
 QT_BEGIN_NAMESPACE
 
 class Ui_Bank
 {
-public:
 
-    //from Bank.h
+
+
+public:
+    //menbers
     /***********以下为银行类私有成员**********/
+    int m_randNumber = 0;
+
     // 三个条件变量, 一个唤醒入队线程取票入队,一个唤醒窗口办理业务,一个唤醒回收小票
     condition_variable workCond, recCond, joinLineCond;
 
@@ -52,22 +57,23 @@ public:
     TicMachine *m_ticMachine;
 
     //银行有四个窗口
-    Window *m_windowOne, *m_windowTwo, *m_windowThree, *m_windowFour;
+    MyWindow *m_windowOne, *m_windowTwo, *m_windowThree, *m_windowFour;
+
+    //is running ?
+    bool m_isRunning;
 
     /********** 银行私有成员结束 **********/
-
-
     QAction *actionStart;
     QAction *actionStop;
     QAction *actionAbout;
     QWidget *centralWidget;
-    Window *w1, *w2, *w3, *w4;
+    MyWindow *w1, *w2, *w3, *w4;
     QPushButton *randCreatePersonButton;
     QFrame *line;
     QFrame *line_2;
     QFrame *line_3;
     QFrame *line_5;
-    QTextBrowser *processWindow;
+    ProcessWindow *processWindow;
     QPushButton *addPersonButton;
     QSpinBox *businessIdBox;
     QSpinBox *personNumBox;
@@ -95,20 +101,106 @@ public:
     QMenu *menuHelp;
     QStatusBar *statusBar;
 
-    void setupUi(QMainWindow *Bank)
+
+
+
+    void createCustomer(int id, int count){
+        QString s;
+        s = QString::number(count) + "个办理" + QString::number(2) + "号业务的人来到";
+        processWindow->processWindowAppend(s);
+        for(int i = 0; i < count; i++){
+            m_customerQueue->push(new Customer(id));
+            joinLineCond.notify_one();
+            this_thread::sleep_for(chrono::milliseconds(100));
+        }
+    }
+
+
+    void joinLine(){
+        QString s;
+        int count = 0;
+        while(true){
+            unique_lock<mutex> locker(lineQueueLock);
+            joinLineCond.wait(locker);
+            locker.unlock();
+            while(!m_customerQueue->isEmpty()){
+                count++;
+                s = "第" + QString::number(count)  + "个人正在排队取票.";
+                this_thread::sleep_for(chrono::milliseconds(500));
+                this->processWindow->processWindowAppend(s);
+                Customer* c = m_customerQueue->pop();
+                c->setTicket(m_ticMachine->createTicket(c->business));
+                s = "第" + QString::number(count)  + "个人取票成功,正在排队办理.";
+                this->processWindow->processWindowAppend(s);
+                m_lineQueue->push(c);
+                this_thread::sleep_for(chrono::milliseconds(100));
+                workCond.notify_one();
+            }
+        }
+    }
+
+
+    void run(){
+        QString s ;
+    //    thread createThread(bind(&Bank::createCustomer, this));
+        thread joinLineThread(bind(&Ui_Bank::joinLine, this));
+        thread w1Thread(&MyWindow::execute, &(*w1), ref(processWindow));
+        thread w2Thread(&MyWindow::execute, &(*w2), ref(processWindow));
+        thread w3Thread(&MyWindow::execute, &(*w3), ref(processWindow));
+        thread w4Thread(&MyWindow::execute, &(*w4), ref(processWindow));
+        thread recThread(&TicMachine::recover, &(*m_ticMachine), ref(this->processWindow));
+
+    //    createThread.join();
+        joinLineThread.detach();
+        w1Thread.detach();
+        s = "1号窗口准备就绪.";
+        this->processWindow->processWindowAppend(s);
+        this_thread::sleep_for(chrono::milliseconds(100));
+        w2Thread.detach();
+        s = "2号窗口准备就绪.";
+        this->processWindow->processWindowAppend(s);
+        this_thread::sleep_for(chrono::milliseconds(200));
+        w3Thread.detach();
+        s = "3号窗口准备就绪.";
+        this->processWindow->processWindowAppend(s);
+        this_thread::sleep_for(chrono::milliseconds(300));
+        w4Thread.detach();
+        s = "4号窗口准备就绪.";
+        this->processWindow->processWindowAppend(s);
+        this_thread::sleep_for(chrono::milliseconds(400));
+        recThread.detach();
+    }
+
+    void setupUi(QMainWindow *GuiBank)
     {
-        if (Bank->objectName().isEmpty())
-            Bank->setObjectName(QStringLiteral("Bank"));
-        Bank->resize(926, 518);
-        actionStart = new QAction(Bank);
+
+//        QObject::connect(this,SIGNAL(processWindowAppendSignal(QString)),this,SLOT(acceptProcessWindowAppendSignal(QString)));
+        //from Bank.h
+        m_isRunning = false;
+
+        //构造队列
+        m_customerQueue = new Queue<Customer*>;
+        m_lineQueue = new Queue<Customer*>;
+        m_oldTicQueue = new Queue<Ticket*>;
+
+
+        // 构造打票机
+        this->m_ticMachine = new TicMachine(m_oldTicQueue, &recCond);
+        // end Bank.h
+
+
+        if (GuiBank->objectName().isEmpty())
+            GuiBank->setObjectName(QStringLiteral("Bank"));
+        GuiBank->resize(926, 518);
+        actionStart = new QAction(GuiBank);
         actionStart->setObjectName(QStringLiteral("actionStart"));
-        actionStop = new QAction(Bank);
+        actionStop = new QAction(GuiBank);
         actionStop->setObjectName(QStringLiteral("actionStop"));
-        actionAbout = new QAction(Bank);
+        actionAbout = new QAction(GuiBank);
         actionAbout->setObjectName(QStringLiteral("actionAbout"));
-        centralWidget = new QWidget(Bank);
+        centralWidget = new QWidget(GuiBank);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        w1 = new Window(centralWidget, 1,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
+        w1 = new MyWindow(centralWidget, window_1Status,1,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
         w1->setObjectName(QStringLiteral("w1"));
         w1->setGeometry(QRect(44, 48, 191, 211));
         randCreatePersonButton = new QPushButton(centralWidget);
@@ -135,16 +227,16 @@ public:
         line_5->setGeometry(QRect(457, 58, 20, 201));
         line_5->setFrameShape(QFrame::VLine);
         line_5->setFrameShadow(QFrame::Sunken);
-        w2 = new Window(centralWidget, 2,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
+        w2 = new MyWindow(centralWidget, window_2Status,2,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
         w2->setObjectName(QStringLiteral("w2"));
         w2->setGeometry(QRect(265, 48, 191, 211));
-        w3 = new Window(centralWidget, 3, m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
+        w3 = new MyWindow(centralWidget, window_3Status, 3, m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
         w3->setObjectName(QStringLiteral("w3"));
         w3->setGeometry(QRect(479, 48, 191, 211));
-        w4 = new Window(centralWidget, 4,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
+        w4 = new MyWindow(centralWidget, window_4Status, 4,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
         w4->setObjectName(QStringLiteral("w4"));
         w4->setGeometry(QRect(699, 48, 191, 211));
-        processWindow = new QTextBrowser(centralWidget);
+        processWindow = new ProcessWindow(centralWidget);
         processWindow->setObjectName(QStringLiteral("processWindow"));
         processWindow->setGeometry(QRect(40, 288, 451, 181));
         addPersonButton = new QPushButton(centralWidget);
@@ -168,6 +260,9 @@ public:
         personNumLabel->setStyleSheet(QLatin1String("\n"
 "font: 13pt \"Sans Serif\";"));
         businessIdWaringBox = new QLabel(centralWidget);
+        QPalette businessIdWaringBoxPa;
+        businessIdWaringBoxPa.setColor(QPalette::WindowText, Qt::red);
+        businessIdWaringBox->setPalette(businessIdWaringBoxPa);
         businessIdWaringBox->setObjectName(QStringLiteral("businessIdWaringBox"));
         businessIdWaringBox->setGeometry(QRect(690, 288, 101, 20));
         businessIdWaringBox->setStyleSheet(QStringLiteral("font: 9pt \"Sans Serif\";"));
@@ -230,18 +325,18 @@ public:
         serverNum = new QLabel(centralWidget);
         serverNum->setObjectName(QStringLiteral("serverNum"));
         serverNum->setGeometry(QRect(581, 380, 59, 14));
-        Bank->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(Bank);
+        GuiBank->setCentralWidget(centralWidget);
+        menuBar = new QMenuBar(GuiBank);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 926, 19));
         menuChoose = new QMenu(menuBar);
         menuChoose->setObjectName(QStringLiteral("menuChoose"));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QStringLiteral("menuHelp"));
-        Bank->setMenuBar(menuBar);
-        statusBar = new QStatusBar(Bank);
+        GuiBank->setMenuBar(menuBar);
+        statusBar = new QStatusBar(GuiBank);
         statusBar->setObjectName(QStringLiteral("statusBar"));
-        Bank->setStatusBar(statusBar);
+        GuiBank->setStatusBar(statusBar);
 
         menuBar->addAction(menuChoose->menuAction());
         menuBar->addAction(menuHelp->menuAction());
@@ -249,14 +344,18 @@ public:
         menuChoose->addAction(actionStop);
         menuHelp->addAction(actionAbout);
 
-        retranslateUi(Bank);
+        retranslateUi(GuiBank);
 
-        QMetaObject::connectSlotsByName(Bank);
+        QMetaObject::connectSlotsByName(GuiBank);
+//        thread t(bind(&Ui_Bank::run,this));
+//        t.join();
+        run();
+
     } // setupUi
 
-    void retranslateUi(QMainWindow *Bank)
+    void retranslateUi(QMainWindow *GuiBank)
     {
-        Bank->setWindowTitle(QApplication::translate("Bank", "Bank", Q_NULLPTR));
+        GuiBank->setWindowTitle(QApplication::translate("Bank", "Bank", Q_NULLPTR));
         actionStart->setText(QApplication::translate("Bank", "start", Q_NULLPTR));
         actionStop->setText(QApplication::translate("Bank", "stop", Q_NULLPTR));
         actionAbout->setText(QApplication::translate("Bank", "about", Q_NULLPTR));
@@ -283,11 +382,10 @@ public:
         menuChoose->setTitle(QApplication::translate("Bank", "choose", Q_NULLPTR));
         menuHelp->setTitle(QApplication::translate("Bank", "help", Q_NULLPTR));
     } // retranslateUi
-
 };
 
 namespace Ui {
-    class Bank: public Ui_Bank {};
+    class GuiBank: public Ui_Bank {};
 } // namespace Ui
 
 QT_END_NAMESPACE

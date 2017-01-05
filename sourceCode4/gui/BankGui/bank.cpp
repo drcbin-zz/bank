@@ -1,22 +1,32 @@
 #include "bank.h"
 #include "ui_bank.h"
 
-Bank::Bank(QWidget *parent) :
+GuiBank::GuiBank(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::Bank)
+    ui(new Ui::GuiBank)
 {
     ui->setupUi(this);
 }
 
-Bank::~Bank()
+GuiBank::~GuiBank()
 {
     delete ui;
 }
 
+//void GuiBank::on_randCreatePersonButton_clicked()
+//{
+////    for(int i = 0; i < 10; i++){
+////        if(m_randNumber > 1000){
+////            m_randNumber = 0;
+////        }
+////        m_randNumber += 4+3*4;
+//        ui->createCustomer(3,2);
+////    }
+//}
 
+//void GuiBank::on_addPersonButton_clicked()
+//{
 
-void Bank::on_pushButton_clicked()
-{
-    ui->w1->append("asd");
-//    ui->w1->result();
-}
+//    ui->createCustomer(ui->businessIdBox->value(), ui->personNumBox->value());
+//}
+

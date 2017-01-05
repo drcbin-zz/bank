@@ -15,10 +15,10 @@ Bank::Bank(){
 
     //构造4个窗口
     cout << "构建窗口" << endl;
-//    this->m_windowOne = new Window(1,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
-//    this->m_windowTwo = new Window(2,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
-//    this->m_windowThree = new Window(3,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
-//    this->m_windowFour = new Window(4,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
+    this->m_windowOne = new Window(1,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex); 
+    this->m_windowTwo = new Window(2,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex); 
+    this->m_windowThree = new Window(3,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
+    this->m_windowFour = new Window(4,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
     cout << "窗口构建成功" << endl;
 
 }
