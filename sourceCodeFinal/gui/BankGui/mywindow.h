@@ -10,7 +10,17 @@
 #include "../../Queue.cpp"
 using namespace std;
 
+class MyLabel:public QLabel{
+    Q_OBJECT
+signals:
+    void changeTextSignal(const QString &text);
+private slots:
+    void acceptChangeTextSignal(const QString &text);
 
+public :
+    MyLabel(QWidget*);
+    void changeText(const QString &text);
+};
 
 class ProcessWindow:public QTextBrowser
 {

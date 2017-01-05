@@ -38,8 +38,8 @@ void GuiBank::on_randCreatePersonButton_clicked()
     int randNum = tm_now->tm_sec;
     cout << tm_now->tm_sec << endl;
     for(int i = 0; i < 10; i++){
-        randNum = randNum*2 -3*4 + 5;
-        if(randNum > 1000 || randNum < 0){
+        randNum = randNum*3 -(tm_now->tm_sec +35);
+        if(randNum > 5000 || randNum < 0){
             randNum = 32;
         }
         cout << randNum << endl;

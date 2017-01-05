@@ -1,5 +1,20 @@
 #include "mywindow.h"
 
+
+//for MyLabel
+MyLabel::MyLabel(QWidget *parent):QLabel(parent){
+     connect(this,SIGNAL(changeTextSignal(QString)),this,SLOT(acceptChangeTextSignal(QString)));
+}
+void MyLabel::changeText(const QString &text){
+    emit changeTextSignal(text);
+}
+void MyLabel::acceptChangeTextSignal(const QString &text){
+    this->setText(text);
+}
+
+
+
+// for ProcessWindow
 ProcessWindow::ProcessWindow(QWidget* parent):QTextBrowser(parent)
 {
     connect(this,SIGNAL(processWindowAppendSignal(QString)),this,SLOT(acceptProcessWindowAppendSignal(QString)));
@@ -17,6 +32,9 @@ void ProcessWindow::processWindowAppend(const string &text){
 }
 
 
+
+
+// for MyWindow
 MyWindow::MyWindow(QWidget* parent,
                    QLabel* statusWindow,
                    int id,
