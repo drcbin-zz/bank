@@ -12,3 +12,15 @@ GuiBank::~GuiBank()
 {
     delete ui;
 }
+
+
+
+void GuiBank::on_addPersonButton_clicked()
+{
+    cout << "Hello" << endl;
+}
+
+void GuiBank::on_randCreatePersonButton_clicked()
+{
+        cout << "Hello" << endl;
+}

@@ -85,7 +85,7 @@
      <string>忙碌</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="createPersonButton">
+   <widget class="QPushButton" name="randCreatePersonButton">
     <property name="geometry">
      <rect>
       <x>605</x>

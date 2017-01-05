@@ -36,8 +36,6 @@ QT_BEGIN_NAMESPACE
 class Ui_Bank
 {
 
-
-
 public:
     //menbers
     /***********以下为银行类私有成员**********/

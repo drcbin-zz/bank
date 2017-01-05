@@ -15,6 +15,12 @@ public:
     explicit GuiBank(QWidget *parent = 0);
     ~GuiBank();
 
+private slots:
+
+    void on_addPersonButton_clicked();
+
+    void on_randCreatePersonButton_clicked();
+
 private:
     Ui::GuiBank *ui;
 };
