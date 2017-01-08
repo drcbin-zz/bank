@@ -13,8 +13,6 @@ GuiBank::~GuiBank()
     delete ui;
 }
 
-
-
 void GuiBank::on_addPersonButton_clicked()
 {
     int id, count;

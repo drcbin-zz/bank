@@ -2,6 +2,7 @@
 #define TICKET_H
 #include <ctime>
 #include <string>
+#include <iostream>
 using namespace std;
 
 class Ticket
@@ -9,7 +10,7 @@ class Ticket
 private:
     //private member
 
-    tm *m_arriveTime;
+    tm *m_arriveTime, *m_banliTime;
     /* 到达时间*/
 
     string m_id;
@@ -43,6 +44,9 @@ public:
 
     tm* arriveTime();
     /* 返回小票上的到达时间 */
+
+    void setBanliTime(tm*);
+    tm* banliTime();
 
     int waitCount();
     /* 返回小票上的等待时间 */

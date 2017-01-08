@@ -82,10 +82,10 @@ public:
     QLabel *window_2StatusLabel;
     QLabel *window_3StatusLabel;
     QLabel *window_5StatusLabel;
-    QLabel *window_1Status;
-    QLabel *window_2Status;
-    QLabel *window_3Status;
-    QLabel *window_4Status;
+    MyLabel *window_1Status;
+    MyLabel *window_2Status;
+    MyLabel *window_3Status;
+    MyLabel *window_4Status;
     QLabel *serverNumLabel;
     QLabel *stayTimeLabel;
     QFrame *line_4;
@@ -130,6 +130,7 @@ public:
                 c->setTicket(m_ticMachine->createTicket(c->business));
                 s = "第" + QString::number(count)  + "个人取票成功,正在排队办理.";
                 this->processWindow->processWindowAppend(s);
+
                 m_lineQueue->push(c);
                 this_thread::sleep_for(chrono::milliseconds(100));
                 workCond.notify_one();
@@ -138,15 +139,19 @@ public:
     }
 
 
+
+
     void run(){
         QString s ;
     //    thread createThread(bind(&Bank::createCustomer, this));
+
         thread joinLineThread(bind(&Ui_Bank::joinLine, this));
         thread w1Thread(&MyWindow::execute, &(*w1), ref(processWindow));
         thread w2Thread(&MyWindow::execute, &(*w2), ref(processWindow));
         thread w3Thread(&MyWindow::execute, &(*w3), ref(processWindow));
         thread w4Thread(&MyWindow::execute, &(*w4), ref(processWindow));
         thread recThread(&TicMachine::recover, &(*m_ticMachine), ref(this->processWindow));
+        thread checkThread(&TicMachine::checkIsRunningOrNot, &(*m_ticMachine));
 
     //    createThread.join();
         joinLineThread.detach();
@@ -167,6 +172,7 @@ public:
         this->processWindow->processWindowAppend(s);
         this_thread::sleep_for(chrono::milliseconds(400));
         recThread.detach();
+        checkThread.detach();
     }
 
     void setupUi(QMainWindow *GuiBank)
@@ -198,6 +204,30 @@ public:
         actionAbout->setObjectName(QStringLiteral("actionAbout"));
         centralWidget = new QWidget(GuiBank);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        businessIdWaringBox = new QLabel(centralWidget);
+        QPalette businessIdWaringBoxPa;
+        businessIdWaringBoxPa.setColor(QPalette::WindowText, Qt::red);
+        businessIdWaringBox->setPalette(businessIdWaringBoxPa);
+        businessIdWaringBox->setVisible(false);
+        businessIdWaringBox->setObjectName(QStringLiteral("businessIdWaringBox"));
+        businessIdWaringBox->setGeometry(QRect(690, 288, 101, 20));
+        businessIdWaringBox->setStyleSheet(QStringLiteral("font: 9pt \"Sans Serif\";"));
+        window_1Status = new MyLabel(centralWidget);
+        window_1Status->setObjectName(QStringLiteral("window_1Status"));
+        window_1Status->setGeometry(QRect(132, 12, 61, 31));
+        window_1Status->setStyleSheet(QStringLiteral("font: 16pt \"Sans Serif\";"));
+        window_2Status = new MyLabel(centralWidget);
+        window_2Status->setObjectName(QStringLiteral("window_2Status"));
+        window_2Status->setGeometry(QRect(352, 13, 61, 31));
+        window_2Status->setStyleSheet(QStringLiteral("font: 16pt \"Sans Serif\";"));
+        window_3Status = new MyLabel(centralWidget);
+        window_3Status->setObjectName(QStringLiteral("window_3Status"));
+        window_3Status->setGeometry(QRect(563, 12, 61, 31));
+        window_3Status->setStyleSheet(QStringLiteral("font: 16pt \"Sans Serif\";"));
+        window_4Status = new MyLabel(centralWidget);
+        window_4Status->setObjectName(QStringLiteral("window_4Status"));
+        window_4Status->setGeometry(QRect(782, 12, 61, 31));
+        window_4Status->setStyleSheet(QStringLiteral("font: 16pt \"Sans Serif\";"));
         w1 = new MyWindow(centralWidget, window_1Status,1,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
         w1->setObjectName(QStringLiteral("w1"));
         w1->setGeometry(QRect(44, 48, 191, 211));
@@ -227,6 +257,7 @@ public:
         line_5->setFrameShadow(QFrame::Sunken);
         w2 = new MyWindow(centralWidget, window_2Status,2,m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
         w2->setObjectName(QStringLiteral("w2"));
+//        w2->setVisible(false);
         w2->setGeometry(QRect(265, 48, 191, 211));
         w3 = new MyWindow(centralWidget, window_3Status, 3, m_lineQueue,m_oldTicQueue,&workCond,&recCond, &customerQueueMutex, &oldTicQueueMutex);
         w3->setObjectName(QStringLiteral("w3"));
@@ -257,14 +288,7 @@ public:
         personNumLabel->setGeometry(QRect(711, 335, 51, 31));
         personNumLabel->setStyleSheet(QLatin1String("\n"
 "font: 13pt \"Sans Serif\";"));
-        businessIdWaringBox = new QLabel(centralWidget);
-        QPalette businessIdWaringBoxPa;
-        businessIdWaringBoxPa.setColor(QPalette::WindowText, Qt::red);
-        businessIdWaringBox->setPalette(businessIdWaringBoxPa);
-        businessIdWaringBox->setVisible(false);
-        businessIdWaringBox->setObjectName(QStringLiteral("businessIdWaringBox"));
-        businessIdWaringBox->setGeometry(QRect(690, 288, 101, 20));
-        businessIdWaringBox->setStyleSheet(QStringLiteral("font: 9pt \"Sans Serif\";"));
+
         window_1StatusLabel = new QLabel(centralWidget);
         window_1StatusLabel->setObjectName(QStringLiteral("window_1StatusLabel"));
         window_1StatusLabel->setGeometry(QRect(60, 8, 81, 41));
@@ -281,19 +305,19 @@ public:
         window_5StatusLabel->setObjectName(QStringLiteral("window_5StatusLabel"));
         window_5StatusLabel->setGeometry(QRect(710, 8, 81, 41));
         window_5StatusLabel->setStyleSheet(QStringLiteral("font: 16pt \"Sans Serif\";"));
-        window_1Status = new QLabel(centralWidget);
+        window_1Status = new MyLabel(centralWidget);
         window_1Status->setObjectName(QStringLiteral("window_1Status"));
         window_1Status->setGeometry(QRect(132, 12, 61, 31));
         window_1Status->setStyleSheet(QStringLiteral("font: 16pt \"Sans Serif\";"));
-        window_2Status = new QLabel(centralWidget);
+        window_2Status = new MyLabel(centralWidget);
         window_2Status->setObjectName(QStringLiteral("window_2Status"));
         window_2Status->setGeometry(QRect(352, 13, 61, 31));
         window_2Status->setStyleSheet(QStringLiteral("font: 16pt \"Sans Serif\";"));
-        window_3Status = new QLabel(centralWidget);
+        window_3Status = new MyLabel(centralWidget);
         window_3Status->setObjectName(QStringLiteral("window_3Status"));
         window_3Status->setGeometry(QRect(563, 12, 61, 31));
         window_3Status->setStyleSheet(QStringLiteral("font: 16pt \"Sans Serif\";"));
-        window_4Status = new QLabel(centralWidget);
+        window_4Status = new MyLabel(centralWidget);
         window_4Status->setObjectName(QStringLiteral("window_4Status"));
         window_4Status->setGeometry(QRect(782, 12, 61, 31));
         window_4Status->setStyleSheet(QStringLiteral("font: 16pt \"Sans Serif\";"));

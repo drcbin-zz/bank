@@ -9,6 +9,9 @@ void MyLabel::changeText(const QString &text){
     emit changeTextSignal(text);
 }
 void MyLabel::acceptChangeTextSignal(const QString &text){
+//    this->clear();
+//    this->setVisible(false);
+//    cout << "this->setVisible(false);" << endl;
     this->setText(text);
 }
 
@@ -35,7 +38,7 @@ void ProcessWindow::processWindowAppend(const string &text){
 
 // for MyWindow
 MyWindow::MyWindow(QWidget* parent,
-                   QLabel* statusWindow,
+                   MyLabel* statusWindow,
                    int id,
                    Queue<Customer*>* customerQueue,
                    Queue<Ticket*>* oldTicQueue,
@@ -55,6 +58,7 @@ MyWindow::MyWindow(QWidget* parent,
     this->m_oldTicQueueMutex = oldTicQueueMutex;
 
 
+//    this->m_statusWindow->changeText("Hello");
     //初始化成员变量
     this->m_status = FREE;
     this->timeOut = 3;
@@ -73,6 +77,7 @@ void MyWindow::Append(const QString& text){
 
 void MyWindow::execute(ProcessWindow*& processWind){
     // unique_lock<mutex> L(lock);
+    time_t now;
     QString s;
     int sec=5;
     unique_lock<mutex> locker(*m_customerQueueMutex, defer_lock);
@@ -82,12 +87,15 @@ void MyWindow::execute(ProcessWindow*& processWind){
         m_status = WAIT ;
         this_thread::sleep_for(std::chrono::seconds(1));
 //        m_statusWindow->setText(m_status);
+//        changeStatus(m_status);
         locker.lock();
         if(m_customerQueue->isEmpty()){
 
              s =  "没有顾客,等待中......";
              this->Append(s);
              this->m_status = FREE;
+//             changeStatus(m_status);
+//             m_statusWindow->changeText("s");
             m_workCond->wait(locker);
         }
         m_customer = m_customerQueue->pop();
@@ -104,7 +112,7 @@ void MyWindow::execute(ProcessWindow*& processWind){
                 // break;
             // }
         m_busnessId = m_customer->ticket()->businessId();
-        this->m_status = "BUSY";
+        this->m_status = BUSY;
         switch (m_busnessId) {
             case 0:
                 sec = 3;
@@ -145,7 +153,10 @@ void MyWindow::execute(ProcessWindow*& processWind){
         //业务受理完成,填写受理信息
         m_customer->ticket()->windowId = this->m_id;
         m_customer->ticket()->statusCode = 1;
-
+        now = time(0);
+        tm* nowTm = localtime(&now);
+//        cout << "banli time:" << nowTm->tm_min << ":" << nowTm->tm_sec << endl;
+        m_customer->ticket()->setBanliTime(nowTm);
 
         //将小票放入废旧小票队列(m_oldTicQueue)
         m_oldTicQueue->push(m_customer->ticket());
@@ -156,10 +167,6 @@ void MyWindow::execute(ProcessWindow*& processWind){
         //办理完成后直接释放顾客对象
         delete m_customer;
         this->m_customer = NULL;
-
-
-        //更改空闲状态
-        this->m_status = "free";
     }
     // }
 }
@@ -176,16 +183,24 @@ void MyWindow::execute(ProcessWindow*& processWind){
 void MyWindow::result(){
 }
 
-
 void MyWindow::changeStatus(int status){
     QString s;
     if(status== FREE){
         s = "空闲";
+        m_statusWindow->clear();
+        m_statusWindow->changeText(s);
+//        cout << "hello" << status << endl;
     }
     if(status== BUSY){
         s = "忙碌";
+        m_statusWindow->changeText(s);
+//        cout << "hello" << status << endl;
     }
     if(status== WAIT){
         s = "等待";
+        m_statusWindow->changeText(s);
+//        cout << "hello" << status << endl;
     }
 }
+
+

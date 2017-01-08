@@ -63,7 +63,7 @@ public:
        //当前窗口的状态
        int m_status;
 
-        QLabel* m_statusWindow;
+        MyLabel* m_statusWindow;
 
        //呼叫客户的最长时间,超过时间没有呼叫到,就作废
        int timeOut;
@@ -89,7 +89,7 @@ public:
        //public function
        //初始化函数
        MyWindow(QWidget*,
-                QLabel*,
+                MyLabel*,
                 int,
                 Queue<Customer*>* customerQueue,
                 Queue<Ticket*>* lodTicQueue,
@@ -110,7 +110,7 @@ public:
        // show sigain
        void Append(const QString&);
 
-
+       void changeServerNum(QString&);
 
        void changeStatus(int);
 
